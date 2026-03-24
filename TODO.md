@@ -1,3 +1,3 @@
-- [ ] Sessões: informações da sessão (filme, horário, sala)
-- [ ] Documentar em `"Melhorias futuras"` a ideia de colocar um `websocket` para o tópico `"ReservaExpirada"` para notificar o frontend que a reserva expirou e melhorar a `UX`, em um caso real onde teria um frontend.
-- [ ] Colocar o tópico de `"ReservaCriada"` e `"PagamentoConfirmado"` com a mesma `key` no Kafka pra eles irem pra mesma partição, garantindo que as mensagens sejam processadas na ordem em que foram enviadas.
+- [ ] Sessions: session information (movie, showtime, room/theater)
+- [ ] Document in `"Future Improvements"` the idea of using a `websocket` for the `"ReservationExpired"` topic to notify the frontend that the reservation has expired and improve `UX`, in a real-world scenario with a frontend.
+- [ ] Use the same Kafka `key` for the `"ReservationCreated"` and `"PaymentConfirmed"` topics so they are routed to the same partition, ensuring that messages are processed in the order they were sent.
