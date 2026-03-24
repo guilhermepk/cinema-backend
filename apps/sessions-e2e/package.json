@@ -1,0 +1,26 @@
+{
+  "name": "@cinema-backend/sessions-e2e",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "implicitDependencies": [
+      "@cinema-backend/sessions"
+    ],
+    "targets": {
+      "e2e": {
+        "executor": "@nx/jest:jest",
+        "outputs": [
+          "{projectRoot}/test-output/jest/coverage"
+        ],
+        "options": {
+          "jestConfig": "apps/sessions-e2e/jest.config.cts",
+          "passWithNoTests": true
+        },
+        "dependsOn": [
+          "@cinema-backend/sessions:build",
+          "@cinema-backend/sessions:serve"
+        ]
+      }
+    }
+  }
+}

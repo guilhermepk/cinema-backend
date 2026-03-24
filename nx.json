@@ -53,7 +53,7 @@
       "options": {
         "targetName": "test"
       },
-      "exclude": ["apps/api-gateway-e2e/**/*"]
+      "exclude": ["apps/api-gateway-e2e/**/*", "apps/sessions-e2e/**/*"]
     }
   ],
   "targetDefaults": {

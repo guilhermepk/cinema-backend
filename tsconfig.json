@@ -8,6 +8,12 @@
     },
     {
       "path": "./apps/api-gateway"
+    },
+    {
+      "path": "./apps/sessions-e2e"
+    },
+    {
+      "path": "./apps/sessions"
     }
   ]
 }
