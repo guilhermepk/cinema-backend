@@ -1,0 +1,4 @@
+- Entities IDs must be generated in the application, in the class, using `uuid`, in order to follow:
+  - the null-safety principle;
+  - the `strictPropertyInitialization` TypeScript property;
+  - the DDD principle that the database only stores data, not rules.

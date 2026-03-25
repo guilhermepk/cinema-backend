@@ -1,0 +1,16 @@
+services:
+  sessions_postgres:
+    image: postgres:15-alpine
+    container_name: sessions_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: sessions-db
+    ports:
+      - '5433:5432'
+    volumes:
+      - sessions_postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  sessions_postgres_data:
