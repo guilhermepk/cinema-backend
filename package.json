@@ -38,15 +38,21 @@
   },
   "workspaces": [
     "packages/*",
-    "apps/*"
+    "apps/*",
+    "shared-events",
+    "libs/*"
   ],
   "dependencies": {
     "@nestjs/common": "^11.0.0",
     "@nestjs/config": "^4.0.3",
     "@nestjs/core": "^11.0.0",
+    "@nestjs/microservices": "^11.1.17",
     "@nestjs/platform-express": "^11.0.0",
     "@nestjs/typeorm": "^11.0.0",
     "axios": "^1.6.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.15.1",
+    "kafkajs": "^2.2.4",
     "pg": "^8.20.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
