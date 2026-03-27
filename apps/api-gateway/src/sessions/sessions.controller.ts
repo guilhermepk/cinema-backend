@@ -13,8 +13,9 @@ export class SessionsController implements OnModuleInit {
     private readonly sessionsService: SessionsService
   ) { }
 
-  onModuleInit() {
+  async onModuleInit() {
     this.sessionsClient.subscribeToResponseOf('sessions.create');
+    await this.sessionsClient.connect();
   }
 
   @Post()
