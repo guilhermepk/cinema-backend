@@ -11,11 +11,11 @@ import { SessionsService } from './sessions.service';
         transport: Transport.KAFKA,
         options: {
           client: {
-            clientId: 'sessions',
+            clientId: 'sessions-api-gateway',
             brokers: (process.env.KAFKA_BROKERS ?? 'localhost:9092').split(', ')
           },
           consumer: {
-            groupId: 'sessions-consumer'
+            groupId: 'sessions-api-gateway-consumer'
           }
         }
       }
