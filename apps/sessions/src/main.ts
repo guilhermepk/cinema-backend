@@ -1,23 +1,28 @@
+import { INestApplication, Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+
+function configGlobalPipes(app: INestApplication) {
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
+}
 
 async function bootstrap() {
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    AppModule,
-    {
-      transport: Transport.KAFKA,
-      options: {
-        client: {
-          brokers: (process.env.KAFKA_BROKERS ?? 'localhost:9092').split(', ')
-        },
-        consumer: {
-          groupId: 'sessions-consumer'
-        }
-      }
-    }
-  );
+  const app = await NestFactory.create(AppModule);
 
-  app.listen();
+  configGlobalPipes(app);
+
+  const port = process.env.PORT || 3001;
+  await app.listen(port);
+
+  Logger.log(
+    `🚀 Application is running on: http://localhost:${port}`,
+  );
 }
+
 bootstrap();
