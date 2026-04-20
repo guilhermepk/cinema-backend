@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 import { randomUUID } from "crypto";
+import { SeatEntity } from "../../../seats/models/entities/seat.entity";
 
 @Entity('sessions')
 export class SessionEntity {
@@ -7,15 +8,24 @@ export class SessionEntity {
   id: string = randomUUID();
 
   @Column()
-  movie: string = '';
+  movie: string;
 
   @Column({ type: 'timestamptz' })
-  datetime: Date = new Date();
+  datetime: Date;
 
   @Column()
-  room: string = '';
+  room: string;
 
-  constructor(data: Omit<SessionEntity, 'id'>) {
-    Object.assign(this, data);
+  // --- { RELATIONS } ---
+
+  @OneToMany(() => SeatEntity, seat => seat.session)
+  seats: Array<SeatEntity> = [];
+
+  // ---------------------
+
+  constructor(data: Omit<SessionEntity, 'id' | 'seats'>) {
+    this.movie = data.movie;
+    this.datetime = data.datetime;
+    this.room = data.room;
   }
 }
