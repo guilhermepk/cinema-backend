@@ -1,27 +1,18 @@
-import { Body, Controller, Inject, OnModuleInit, Post } from "@nestjs/common";
+import { Body, Controller, Post } from "@nestjs/common";
 import { CreateSessionDto } from "./models/dtos/create-session.dto";
-import { ClientKafka } from "@nestjs/microservices";
 import { SessionsService } from "./sessions.service";
-import { SuccessResponse } from "@cinema-backend/shared";
+import { CreateSessionResponse } from "@cinema-backend/shared";
 
 @Controller('sessions')
-export class SessionsController implements OnModuleInit {
+export class SessionsController {
   constructor(
-    @Inject('SESSIONS_SERVICE')
-    private readonly sessionsClient: ClientKafka,
-
     private readonly sessionsService: SessionsService
   ) { }
-
-  async onModuleInit() {
-    this.sessionsClient.subscribeToResponseOf('sessions.create');
-    await this.sessionsClient.connect();
-  }
 
   @Post()
   async createSession(
     @Body() body: CreateSessionDto
-  ): Promise<SuccessResponse> {
+  ): Promise<CreateSessionResponse> {
     return await this.sessionsService.createSession(body);
   }
 }

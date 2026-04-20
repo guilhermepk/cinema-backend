@@ -15,7 +15,5 @@ import { SessionsModule } from './sessions/sessions.module';
     }),
     SessionsModule
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule { }

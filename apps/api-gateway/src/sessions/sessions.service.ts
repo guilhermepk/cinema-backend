@@ -1,27 +1,25 @@
-import { CreateSessionRequest, CreateSessionResponse, SuccessResponse } from "@cinema-backend/shared";
+import { CreateSessionDto, CreateSessionResponse } from "@cinema-backend/shared";
 import { HttpException, Inject, Injectable, InternalServerErrorException } from "@nestjs/common";
-import { ClientKafka } from "@nestjs/microservices";
-import { firstValueFrom } from "rxjs";
+import { HttpClient } from "../http-client/http-client";
 
 @Injectable()
 export class SessionsService {
   constructor(
-    @Inject('SESSIONS_SERVICE')
-    private readonly sessionsClient: ClientKafka
+    @Inject('SESSIONS_HTTP_CLIENT')
+    private readonly sessionsHttpClient: HttpClient
   ) { }
 
-  async createSession(data: CreateSessionRequest): Promise<SuccessResponse> {
+  async createSession(data: CreateSessionDto): Promise<CreateSessionResponse> {
     try {
-      const request = new CreateSessionRequest(data.movie, data.showtime, data.room);
-
-      await firstValueFrom(
-        this.sessionsClient.send<CreateSessionResponse>('sessions.create', request)
+      const response = await this.sessionsHttpClient.post<CreateSessionResponse, CreateSessionDto>(
+        '/sessions',
+        data
       );
 
-      return new SuccessResponse(true);
+      return response;
     } catch (error: any) {
-      if (error.statusCode) throw new HttpException(error.message, error.statusCode, { cause: error.cause });
-      else throw new InternalServerErrorException('Error while creating session', { cause: error });
+      if (error instanceof HttpException) throw error;
+      else throw new InternalServerErrorException(`Não foi possível cadastrar a sessão. ${error}`);
     }
   }
 }

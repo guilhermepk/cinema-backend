@@ -10,7 +10,7 @@ export class SessionEntity {
   movie: string = '';
 
   @Column({ type: 'timestamptz' })
-  showtime: Date = new Date();
+  datetime: Date = new Date();
 
   @Column()
   room: string = '';
