@@ -2,10 +2,12 @@ import { Injectable } from "@nestjs/common";
 import { EntityManager, Repository } from "typeorm";
 import { SeatEntity } from "./models/entities/seat.entity";
 import { ISeatsRepository } from "./models/interfaces/seats-repository.interface";
+import { InjectRepository } from "@nestjs/typeorm";
 
 @Injectable()
 export class SeatsTypeOrmRepository implements ISeatsRepository {
   constructor(
+    @InjectRepository(SeatEntity)
     private readonly repository: Repository<SeatEntity>
   ) { }
 

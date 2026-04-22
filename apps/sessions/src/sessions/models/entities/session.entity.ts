@@ -8,24 +8,22 @@ export class SessionEntity {
   id: string = randomUUID();
 
   @Column()
-  movie: string;
+  movie!: string;
 
   @Column({ type: 'timestamptz' })
-  datetime: Date;
+  datetime!: Date;
 
   @Column()
-  room: string;
+  room!: string;
 
   // --- { RELATIONS } ---
 
   @OneToMany(() => SeatEntity, seat => seat.session)
-  seats: Array<SeatEntity> = [];
+  seats!: Array<SeatEntity>;
 
   // ---------------------
 
   constructor(data: Omit<SessionEntity, 'id' | 'seats'>) {
-    this.movie = data.movie;
-    this.datetime = data.datetime;
-    this.room = data.room;
+    Object.assign(this, data);
   }
 }

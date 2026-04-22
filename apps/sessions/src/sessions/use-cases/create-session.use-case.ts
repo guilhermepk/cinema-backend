@@ -1,4 +1,4 @@
-import { CreateSessionDto, CreateSessionResponse } from "@cinema-backend/shared";
+import { SharedCreateSessionDto, CreateSessionResponse } from "@cinema-backend/shared";
 import { HttpException, Inject, Injectable, InternalServerErrorException } from "@nestjs/common";
 import type { ISessionsRepository } from "../models/interfaces/sessions-repository.interface";
 import { SessionEntity } from "../models/entities/session.entity";
@@ -16,7 +16,7 @@ export class CreateSessionUseCase {
     private readonly createSeatUseCase: CreateSeatUseCase
   ) { }
 
-  async execute(data: CreateSessionDto): Promise<CreateSessionResponse> {
+  async execute(data: SharedCreateSessionDto): Promise<CreateSessionResponse> {
     try {
       return await this.entityManager.transaction(async (transactionManager: EntityManager) => {
         const date = new Date(data.datetime);

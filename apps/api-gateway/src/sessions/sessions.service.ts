@@ -1,6 +1,7 @@
-import { CreateSessionDto, CreateSessionResponse } from "@cinema-backend/shared";
+import { CreateSessionResponse } from "@cinema-backend/shared";
 import { HttpException, Inject, Injectable, InternalServerErrorException } from "@nestjs/common";
 import { HttpClient } from "../http-client/http-client";
+import { CreateSessionDto } from "./models/dtos/create-session.dto";
 
 @Injectable()
 export class SessionsService {

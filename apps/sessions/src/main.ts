@@ -25,4 +25,7 @@ async function bootstrap() {
   );
 }
 
-bootstrap();
+bootstrap().catch((err) => {
+  console.error('Erro fatal durante a inicialização:', err);
+  process.exit(1);
+});

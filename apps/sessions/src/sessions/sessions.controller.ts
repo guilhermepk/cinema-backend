@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from "@nestjs/common";
-import { CreateSessionDto, CreateSessionResponse } from '@cinema-backend/shared';
+import { SharedCreateSessionDto, CreateSessionResponse } from '@cinema-backend/shared';
 import { CreateSessionUseCase } from "./use-cases/create-session.use-case";
 
 @Controller('sessions')
@@ -10,7 +10,7 @@ export class SessionsController {
 
   @Post()
   async handle(
-    @Body() data: CreateSessionDto
+    @Body() data: SharedCreateSessionDto
   ): Promise<CreateSessionResponse> {
     return await this.createSessionUseCase.execute(data);
   }

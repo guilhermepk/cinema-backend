@@ -7,7 +7,7 @@ class SeatData {
   code!: string;
 }
 
-export class CreateSessionDto {
+export class SharedCreateSessionDto {
   @IsNotEmpty()
   @IsString()
   movie!: string;

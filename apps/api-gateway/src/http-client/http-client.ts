@@ -1,13 +1,16 @@
-import { Injectable, ServiceUnavailableException } from "@nestjs/common";
+import { HttpException, Injectable, ServiceUnavailableException } from "@nestjs/common";
 import axios from "axios";
 import { AxiosError } from "axios";
+
+const SERVICE_UNAVAILABLE_CODES = new Set(['ECONNREFUSED', 'ECONNABORTED']);
 
 @Injectable()
 export class HttpClient {
   private client: axios.AxiosInstance;
 
   constructor(
-    baseURL: string
+    baseURL: string,
+    public readonly alias: string
   ) {
     this.client = axios.create({
       baseURL: baseURL,
@@ -19,12 +22,21 @@ export class HttpClient {
     try {
       return await callback();
     } catch (error: unknown) {
-      if (error instanceof AxiosError && error.code) {
-        const { code } = error;
-        const serviceUnavailableErrors = ['ECONNREFUSED', 'ECONNABORTED'];
+      if (error instanceof AxiosError === false) throw error;
 
-        if (serviceUnavailableErrors.includes(code)) {
-          throw new ServiceUnavailableException('Serviço indisponível. Tente novamente mais tarde');
+      const status = error.response?.status || error.status;
+
+      if (status) {
+        const originalErrorData: any = error.response?.data;
+        const originalErrorIsValidObject: boolean = typeof originalErrorData === 'object' && originalErrorData !== null;
+
+        const errorData = originalErrorIsValidObject ? { ...originalErrorData } : { message: error.message };
+        errorData.origin = this.alias;
+
+        throw new HttpException(errorData, status);
+      } else if (error.code) {
+        if (SERVICE_UNAVAILABLE_CODES.has(error.code)) {
+          throw new ServiceUnavailableException('Serviço indisponível. Tente novamente mais tarde', { cause: `Serviço "${this.alias}": ${error.message}` });
         }
       }
 

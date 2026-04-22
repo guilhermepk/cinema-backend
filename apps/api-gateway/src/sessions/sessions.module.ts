@@ -13,7 +13,7 @@ import { ConfigService } from '@nestjs/config';
     SessionsService,
     {
       provide: 'SESSIONS_HTTP_CLIENT',
-      useFactory: (configService: ConfigService) => new HttpClient(configService.get<string>('SESSIONS_MS_URI') ?? ''),
+      useFactory: (configService: ConfigService) => new HttpClient(configService.get<string>('SESSIONS_MS_URI') ?? '', 'Microsserviço de sessões'),
       inject: [ConfigService]
     }
   ]
